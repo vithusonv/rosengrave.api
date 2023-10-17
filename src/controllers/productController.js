@@ -1,4 +1,5 @@
 const productService = require('../services/productService');
+const uuid = require('uuid');
 
 const getAllProducts = (req, res) => {
     productService.getAllProducts()
@@ -34,8 +35,18 @@ const getOneProduct = (req, res) => {
 };
 
 const createNewProduct = (req, res) => {
-    const createProduct = productService.createNewProduct();
-    res.send("Create a new product");
+    if(!req.body.product_name) {
+        throw Error('product name is required.');
+    }
+
+    if(!req.body.price) {
+        throw Error('price is required.');
+    }
+
+    req.body.uuid = uuid.v4();
+    res.status(200).json(req.body);
+    // const createProduct = productService.createNewProduct();
+    // res.status(200).send("Create a new product", req.body);
 };
 
 const updateOneProduct = (req, res) => {
