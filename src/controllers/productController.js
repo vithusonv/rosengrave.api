@@ -56,7 +56,7 @@ const createNewProduct = (req, res) => {
             });
     }
     else {
-        res.status(422).json({ errors: errors.array({ onlyFirstError: true }) });
+        res.status(422).json({ errors: errors.array() });
     }
 };
 

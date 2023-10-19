@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const productController = require("../controllers/productController");
-const { newProductCheck } = require("../middleware/validator");
+const { newProductCheck } = require("../middleware/product-validator");
 
 router.get("/", productController.getAllProducts);
 

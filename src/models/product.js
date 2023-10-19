@@ -57,15 +57,27 @@ class ProductModel {
 
     // create new product
     static async createNewProduct(product) {
-        const query = {
-            text: `INSERT INTO products(product_name, description, price, unique_code) VALUES ($1, $2, $3, $4)`,
-            values: [product.name, product.description, product.price, product.unique_code],
-        };
-
         try {
-            const result = await db.query(query);
-            return result.rows;
+            // Start a transaction
+            await db.query('BEGIN');
+
+            // Insert the product into the products table
+            const productInsertQuery = `INSERT INTO products(product_name, description, price, unique_code) VALUES ($1, $2, $3, $4) RETURNING product_id`;
+            const productResult = await db.query(productInsertQuery, [product.name, product.description, product.price, product.unique_code]);
+            const productId = productResult.rows[0].product_id;
+
+            if (product.image_url) {
+                // If imageURL is provided, insert it into the product_prices table
+                const imageInsertQuery = 'INSERT INTO product_images(product_id, image_url) VALUES ($1, $2)';
+                await db.query(imageInsertQuery, [productId, product.image_url]);
+            }
+
+            // Commit the transaction
+            await db.query('COMMIT');
+            return productResult;
         } catch (error) {
+            // Rollback the transaction in case of an error
+            await db.query('ROLLBACK');
             throw error;
         }
     }

@@ -2,12 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const categoryController = require("../controllers/customizationCategoryController");
+const { newCategoryCheck } = require("../middleware/customization-validator");
 
 router.get("/", categoryController.getAllCategories);
 
-router.get("/:categoryId", categoryController.getOneCategory);
-
-router.post("/", categoryController.createNewCategory);
+router.post("/", newCategoryCheck(), categoryController.createNewCategory);
 
 router.patch("/:categoryId", categoryController.updateOneCategory);
 

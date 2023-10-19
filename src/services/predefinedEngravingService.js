@@ -4,6 +4,11 @@ const getAllPredefEngravings = () => {
     return predefinedEngraving.getAllPredefEngravings();
 };
 
+const createNewPredefEngraving = (engraving) => {
+    return predefinedEngraving.createNewPredefEngraving(engraving);
+};
+
 module.exports = {
     getAllPredefEngravings,
+    createNewPredefEngraving
 }
