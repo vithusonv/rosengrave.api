@@ -19,19 +19,22 @@ const getAllPredefinedEngravings = (req, res) => {
 };
 
 const createNewPredefinedEngraving = async (req, res) => {
+    const { label, file } = req.body;
 
-    const { name, description, file } = req.body;
-    console.log(req.body);
-    const b64 = Buffer.from(req.file?.buffer).toString("base64");
-    let dataURI = "data:" + req.file?.mimetype + ";base64," + b64
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64
 
-    console.log(dataURI);
     // Upload the image to Cloudinary
-    // const cloudinaryResponse = await cloudinary.uploader.upload(req.body.file, {
-    //     upload_preset: 'dirdbyito', // Replace with your Cloudinary upload preset
-    //     resource_type: 'auto',
-    //     public_id: new Date(),
-    // });
+    cloudinary.uploader.upload(dataURI, {
+        resource_type: 'auto',
+        public_id: new Date(),
+    })
+        .then((d) => {
+            console.log(d)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 
     // const imageUrl = cloudinaryResponse.secure_url;
 
