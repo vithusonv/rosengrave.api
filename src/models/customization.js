@@ -1,8 +1,4 @@
-const config = require('../configs/db.config');
-const { Pool } = require('pg');
-
-// Configure the PostgreSQL connection
-const db = new Pool(config.database);
+const db = require('../configs/db.config'); // Import the database pool from db.js
 
 class CustomizationModel {
     // retrieve customizations

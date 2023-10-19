@@ -1,12 +1,6 @@
-const express = require('express'); 
+const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-// const { Pool } = require('pg');
-// const config = require('./src/configs/db.config');
-
-// // Configure the PostgreSQL connection
-// const pool = new Pool(config.database);
 
 // ROUTER
 const productRouter = require('./src/routes/productRoutes');
@@ -14,11 +8,12 @@ const customizationCategoryRouter = require('./src/routes/customizationCategoryR
 const predefinedEngravingRouter = require('./src/routes/predefinedEngravingRoutes');
 const customizationRouter = require('./src/routes/customizationRoutes');
 
-const app = express(); 
-const PORT = process.env.PORT || 4000; 
+const app = express();
+const PORT = process.env.PORT || 4000;
 
 // Enable All CORS Requests
 app.use(cors());
+app.options('*', cors());
 
 app.use(bodyParser.json());
 app.use(
@@ -32,9 +27,20 @@ app.use('/api/customization-categories', customizationCategoryRouter);
 app.use('/api/predefined-engravings', predefinedEngravingRouter)
 app.use('/api/customizations', customizationRouter);
 
-// Attach the database connection to the app object
-// app.locals.db = pool;
+// app.post("/api/upload", upload.single("my_file"), async (req, res) => {
+//     try {
+//         const b64 = Buffer.from(req.file?.buffer).toString("base64");
+//         let dataURI = "data:" + req.file?.mimetype + ";base64," + b64;
+//         const cldRes = await handleUpload(dataURI);
+//         res.json(cldRes);
+//     } catch (error) {
+//         console.log(error);
+//         res.send({
+//             message: error.message,
+//         });
+//     }
+// });
 
-app.listen(PORT, () => { 
-    console.log(`API is listening on port ${PORT}.`); 
+app.listen(PORT, () => {
+    console.log(`API is listening on port ${PORT}.`);
 });
