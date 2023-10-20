@@ -1,4 +1,4 @@
-const product = require("../models/product");
+const product = require("../models/product.model");
 
 const getAllProducts = () => {
     return product.getAllProducts();
@@ -8,8 +8,8 @@ const getOneProduct = (id) => {
     return product.getProductById(id);
 };
 
-const createNewProduct = (obj) => {
-    return product.createNewProduct(obj);
+const createNewProduct = (prod, images) => {
+    return product.createNewProduct(prod, images);
 };
 
 const updateOneProduct = () => {

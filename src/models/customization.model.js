@@ -1,8 +1,9 @@
 const db = require('../configs/db.config'); // Import the database pool from db.js
-class CustomizationCategoryModel {
-    // get all customization categories
-    static async getAllCustomizationCategories() {
-        const query = `SELECT * FROM customization_categories`;
+
+class CustomizationModel {
+    // get all customizations
+    static async getAllCustomizations() {
+        const query = `SELECT * FROM customizations`;
 
         try {
             const result = await db.query(query);
@@ -12,8 +13,8 @@ class CustomizationCategoryModel {
         }
     }
     // insert customization category
-    static async createNewCustomCategory(name) {
-        const query = `INSERT INTO customization_categories(name) VALUES ($1) RETURNING *`;
+    static async createNewCustomization(name) {
+        const query = `INSERT INTO customizations(name) VALUES ($1) RETURNING *`;
 
         try {
             const result = await db.query(query, [name]);
@@ -24,4 +25,4 @@ class CustomizationCategoryModel {
     }
 }
 
-module.exports = CustomizationCategoryModel;
+module.exports = CustomizationModel;

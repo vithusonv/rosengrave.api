@@ -24,11 +24,6 @@ const newProductCheck = () => {
             .withMessage('Name must exist')
             .isString()
             .withMessage('Name must be a string'),
-        check('image_url')
-            .trim()
-            .optional({ values: 'falsy' })
-            .isString()
-            .withMessage('Image url must be a string')
     ]
 }
 

@@ -3,10 +3,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // ROUTER
-const productRouter = require('./src/routes/productRoutes');
-const customizationCategoryRouter = require('./src/routes/customizationCategoryRoutes');
-const predefinedEngravingRouter = require('./src/routes/predefinedEngravingRoutes');
-const customizationRouter = require('./src/routes/customizationRoutes');
+const productRouter = require('./src/routes/product.routes');
+const customizationRouter = require('./src/routes/customization.routes');
+const engravingRouter = require('./src/routes/engraving.routes');
+const productCustomizationRouter = require('./src/routes/product-customization.routes');
+const categoryRouter = require('./src/routes/category.routes');
+const productCategoryRouter = require('./src/routes/product-category.routes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -26,9 +28,11 @@ app.use(
 );
 
 app.use('/api/products', productRouter);
-app.use('/api/customization-categories', customizationCategoryRouter);
-app.use('/api/predefined-engravings', predefinedEngravingRouter)
 app.use('/api/customizations', customizationRouter);
+app.use('/api/engravings', engravingRouter)
+app.use('/api/product-customizations', productCustomizationRouter);
+app.use('/api/categories', categoryRouter);
+app.use('/api/product-categories', productCategoryRouter)
 
 app.listen(PORT, () => {
     console.log(`API is listening on port ${PORT}.`);

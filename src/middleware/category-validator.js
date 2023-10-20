@@ -1,8 +1,8 @@
 const { check } = require('express-validator');
 
-const newCustomizationCheck = () => {
+const newCategoryCheck = () => {
     return [
-        check('category')
+        check('name')
             .trim()
             .not()
             .isEmpty()
@@ -13,5 +13,5 @@ const newCustomizationCheck = () => {
 }
 
 module.exports = {
-    newCustomizationCheck
+    newCategoryCheck
 }

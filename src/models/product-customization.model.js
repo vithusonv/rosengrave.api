@@ -9,9 +9,9 @@ class CustomizationModel {
                         cc.name AS category_name,
                         ARRAY_AGG(c.name) AS customizations
                     FROM
-                        customizations AS c
+                        product_customizations AS c
                     INNER JOIN
-                        customization_categories AS cc
+                        customizations AS cc
                     ON
                         c.category_id = cc.category_id
                     WHERE
@@ -35,7 +35,7 @@ class CustomizationModel {
             text: `SELECT
                         name
                     FROM
-                        customizations
+                        product_customizations
                     WHERE
                         product_id = $1
                         AND category_id = $2`,

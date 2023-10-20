@@ -1,8 +1,8 @@
-const customizationCategoryService = require('../services/customizationCategoryService');
+const customizationService = require('../services/customization.service');
 const { validationResult } = require('express-validator');
 
-const getAllCategories = (req, res) => {
-    customizationCategoryService.getAllCustomizationCategories()
+const getAllCustomizations = (req, res) => {
+    customizationService.getAllCustomizations()
         .then((categories) => {
             res.status(200).json(categories);
         })
@@ -10,14 +10,13 @@ const getAllCategories = (req, res) => {
             // Handle errors and send an appropriate response
             console.error(err);
             res.status(500).json({ message: 'Internal server error.' });
-            throw err;
         })
 };
 
 const createNewCategory = async (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        customizationCategoryService.createNewCategory(req.body.category)
+        customizationService.createNewCustomization(req.body.category)
             .then((category) => {
                 if (category) {
                     res.status(200).json(category);
@@ -28,7 +27,6 @@ const createNewCategory = async (req, res) => {
             })
             .catch((err) => {
                 res.status(500).json({ message: 'Internal server error.' });
-                throw err;
             });
     }
     else {
@@ -45,7 +43,7 @@ const deleteOneCategory = (req, res) => {
 };
 
 module.exports = {
-    getAllCategories,
+    getAllCustomizations,
     createNewCategory,
     updateOneCategory,
     deleteOneCategory,

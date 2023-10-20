@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const customizationController = require("../controllers/customizationController");
+const customizationController = require("../controllers/product-customization.controller");
 
 router.get("/:productId", customizationController.getProductCustomizations);
 

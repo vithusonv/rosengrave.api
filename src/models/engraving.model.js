@@ -1,8 +1,9 @@
 const db = require('../configs/db.config'); // Import the database pool from db.js
-class PredefinedEngravingModel {
-    // retrieve predefined engraving
+
+class EngravingModel {
+    // retrieve engraving
     static async getAllPredefEngravings() {
-        const query = `SELECT * FROM predefined_engravings ORDER BY label`;
+        const query = `SELECT * FROM engravings ORDER BY label`;
 
         try {
             const result = await db.query(query);
@@ -11,9 +12,9 @@ class PredefinedEngravingModel {
             throw error;
         }
     }
-    // create predefined engraving
+    // create engraving
     static async createNewPredefEngraving(label, assetId, publicId, url, secureUrl) {
-        const query = `INSERT INTO predefined_engravings(label, image_asset_id, image_public_id, image_url, image_secure_url) 
+        const query = `INSERT INTO engravings(label, image_asset_id, image_public_id, image_url, image_secure_url) 
                         VALUES ($1, $2, $3, $4, $5) 
                         RETURNING *`;
 
@@ -26,4 +27,4 @@ class PredefinedEngravingModel {
     }
 }
 
-module.exports = PredefinedEngravingModel;
+module.exports = EngravingModel;

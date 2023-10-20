@@ -1,5 +1,6 @@
-const productService = require('../services/productService');
+const productService = require('../services/product.service');
 const { validationResult } = require('express-validator');
+const cloudinaryApi = require("../utils/cloudinary.util");
 const { v4: uuidv4 } = require('uuid');
 
 const getAllProducts = (req, res) => {
@@ -11,7 +12,6 @@ const getAllProducts = (req, res) => {
             // Handle errors and send an appropriate response
             console.error(err);
             res.status(500).json({ message: 'Internal server error.' });
-            throw err;
         })
 };
 
@@ -31,7 +31,6 @@ const getOneProduct = (req, res) => {
             // Handle errors and send an appropriate response
             console.log(err);
             res.status(500).json({ message: 'Internal server error.' });
-            throw err;
         });
 };
 
@@ -39,20 +38,28 @@ const createNewProduct = (req, res) => {
     const errors = validationResult(req);
 
     if (errors.isEmpty()) {
-        req.body.unique_code = uuidv4();
+        // upload image to cloudinary
+        cloudinaryApi(req.file, 'products')
+            .then((cloudinaryRes) => {
+                const { asset_id, public_id, url, secure_url } = cloudinaryRes;
+                req.body.unique_code = uuidv4();
 
-        productService.createNewProduct(req.body)
-            .then((newProduct) => {
-                if (newProduct) {
-                    res.status(200).json(req.body);
-                }
-                else {
-                    res.status(404).json();
-                }
+                productService.createNewProduct(req.body, { asset_id, public_id, url, secure_url })
+                    .then((newProduct) => {
+                        if (newProduct) {
+                            res.status(200).json(req.body);
+                        }
+                        else {
+                            res.status(404).json();
+                        }
+                    })
+                    .catch((err) => {
+                        res.status(500).json({ message: 'Internal server error.' });
+                    });
+
             })
             .catch((err) => {
-                res.status(500).json({ message: 'Internal server error.' });
-                throw err;
+                res.status(500).json({ message: 'Failed to upload image.' });
             });
     }
     else {
