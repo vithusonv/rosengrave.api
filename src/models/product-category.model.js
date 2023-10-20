@@ -17,7 +17,8 @@ class ProductCategoryModel {
                                     SELECT jsonb_agg(
                                         jsonb_build_object(
                                         'image_id', pi.image_id,
-                                        'image_url', pi.image_url
+                                        'image_url', pi.image_url,
+                                        'image_secure_url', pi.image_secure_url
                                         )
                                     )
                                     FROM product_images pi
