@@ -7,6 +7,6 @@ const { newEngravingCheck } = require("../middleware/predefined-engraving-valida
 
 router.get("/", predefinedEngravingController.getAllPredefinedEngravings);
 
-router.post('/', upload.single('file'), predefinedEngravingController.createNewPredefinedEngraving)
+router.post('/', upload.single('file'), newEngravingCheck(), predefinedEngravingController.createNewPredefinedEngraving)
 
 module.exports = router;

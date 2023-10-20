@@ -12,11 +12,13 @@ class PredefinedEngravingModel {
         }
     }
     // create predefined engraving
-    static async createNewPredefEngraving(engraving) {
-        const query = `INSERT INTO predefined_engravings(label, image_url) VALUES ($1, $2) RETURNING *`;
+    static async createNewPredefEngraving(label, assetId, publicId, url, secureUrl) {
+        const query = `INSERT INTO predefined_engravings(label, image_asset_id, image_public_id, image_url, image_secure_url) 
+                        VALUES ($1, $2, $3, $4, $5) 
+                        RETURNING *`;
 
         try {
-            const result = await db.query(query, [engraving.label, engraving.image_url]);
+            const result = await db.query(query, [label, assetId, publicId, url, secureUrl]);
             return result.rows;
         } catch (error) {
             throw error;
