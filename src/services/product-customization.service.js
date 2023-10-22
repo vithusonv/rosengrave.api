@@ -8,7 +8,12 @@ const getProductCustomizationsByCategory = (productId, categoryId) => {
     return customization.getProductCustomizationsByCategory(productId, categoryId);
 };
 
+const insertCustomizationOptForProduct = (product) => {
+    return customization.insertCustomizationOptForProduct(product);
+}
+
 module.exports = {
     getProductCustomizations,
     getProductCustomizationsByCategory,
+    insertCustomizationOptForProduct,
 };

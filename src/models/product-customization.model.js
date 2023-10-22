@@ -49,6 +49,22 @@ class CustomizationModel {
             throw error;
         }
     }
+    // create customizations per product
+    static async insertCustomizationOptForProduct(product) {
+        const { asset_id, public_id, url, secure_url } = product?.image || {};
+
+        const query = `INSERT INTO product_customizations(category_id, product_id, name, image_asset_id, image_public_id, image_url, image_secure_url)
+                            VALUES($1, $2, $3, $4, $5, $6, $7) 
+                            RETURNING *
+                        `;
+
+        try {
+            const result = await db.query(query, [product.categoryId, product.productId, product.name, asset_id, public_id, url, secure_url]);
+            return result.rows;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = CustomizationModel;
