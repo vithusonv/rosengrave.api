@@ -6,6 +6,8 @@ class ProductCategoryModel {
         const query = `SELECT
                         c.category_id,
                         c.category_name,
+                        c.image_url,
+                        c.image_secure_url,
                         jsonb_agg(
                             jsonb_build_object(
                                 'product_id', p.product_id,
