@@ -1,9 +1,9 @@
-const db = require('../configs/db.config'); // Import the database pool from db.js
+const db = require("../configs/db.config"); // Import the database pool from db.js
 
 class ProductCategoryModel {
-    // retrieve category products
-    static async getCategoryProducts() {
-        const query = `SELECT
+  // retrieve category products
+  static async getCategoryProducts() {
+    const query = `SELECT
                         c.category_id,
                         c.category_name,
                         c.image_url,
@@ -38,25 +38,24 @@ class ProductCategoryModel {
                         GROUP BY c.category_id, c.category_name
                         ORDER BY c.category_id
                     `;
-
-        try {
-            const result = await db.query(query);
-            return result.rows;
-        } catch (error) {
-            throw error;
-        }
+    try {
+      const result = await db.query(query);
+      return result.rows;
+    } catch (error) {
+      throw error;
     }
-    // put product in a category
-    static async insertProductInCategory(productId, categoryId) {
-        const query = `INSERT INTO product_categories(category_id, product_id) VALUES($1, $2)`;
+  }
+  // put product in a category
+  static async insertProductInCategory(productId, categoryId) {
+    const query = `INSERT INTO product_categories(category_id, product_id) VALUES($1, $2)`;
 
-        try {
-            const result = await db.query(query, [categoryId, productId]);
-            return result.rows;
-        } catch (error) {
-            throw error;
-        }
+    try {
+      const result = await db.query(query, [categoryId, productId]);
+      return result.rows;
+    } catch (error) {
+      throw error;
     }
+  }
 }
 
 module.exports = ProductCategoryModel;
