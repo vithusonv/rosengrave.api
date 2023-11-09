@@ -43,7 +43,7 @@ class ProductModel {
                             p.product_id AS product_id,
                             p.product_name AS product_name,
                             p.description AS product_description,
-                            p.detailed_description AS p.detailed_description,
+                            p.detailed_description AS product_detailed_description,
                             p.price AS product_price, 
                             p.created_at AS created_at,
                             p.updated_at AS updated_at,
