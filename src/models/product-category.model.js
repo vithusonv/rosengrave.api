@@ -13,6 +13,7 @@ class ProductCategoryModel {
                                 'product_id', p.product_id,
                                 'product_name', p.product_name,
                                 'product_description', p.description,
+                                'product_detailed_description', p.detailed_description,
                                 'product_price', p.price,
                                 'product_images', COALESCE(
                                     (
