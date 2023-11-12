@@ -34,7 +34,7 @@ app.use("/api/engravings", engravingRouter);
 app.use("/api/product-customizations", productCustomizationRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/product-categories", productCategoryRouter);
-app.use("/api/process-payment", paymentRouter);
+app.use("/api/payment", paymentRouter);
 
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}.`);
