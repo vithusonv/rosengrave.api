@@ -3,7 +3,7 @@ const router = express.Router();
 
 const paymentController = require("../controllers/payment.controller");
 
-router.get("/p", paymentController.processPayment);
+router.post("/", paymentController.processPayment);
 
 router.get("/", paymentController.getIntent);
 

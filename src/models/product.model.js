@@ -15,7 +15,13 @@ class ProductModel {
                         COALESCE(
                             json_agg(pi.*) FILTER (WHERE pi.image_id IS NOT NULL),
                             '[]'
-                        ) AS product_images
+                        ) AS product_images,
+                        json_build_object(
+                          'weight', p.weight,
+                          'height', p.height,
+                          'length', p.length,
+                          'width', p.width
+                        ) AS product_dimensions
                     FROM 
                         products AS p 
                     LEFT JOIN 
@@ -50,7 +56,13 @@ class ProductModel {
                             COALESCE(
                                 json_agg(pi.*) FILTER (WHERE pi.image_id IS NOT NULL),
                                 '[]'
-                            ) AS product_images
+                            ) AS product_images,
+                            json_build_object(
+                              'weight', p.weight,
+                              'height', p.height,
+                              'length', p.length,
+                              'width', p.width
+                            ) product_dimensions
                         FROM 
                             products AS p 
                         LEFT JOIN 

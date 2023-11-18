@@ -10,6 +10,7 @@ const productCustomizationRouter = require("./src/routes/product-customization.r
 const categoryRouter = require("./src/routes/category.routes");
 const productCategoryRouter = require("./src/routes/product-category.routes");
 const paymentRouter = require("./src/routes/payment.routes");
+const shippingRouter = require("./src/routes/shipping.routes");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -35,6 +36,7 @@ app.use("/api/product-customizations", productCustomizationRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/product-categories", productCategoryRouter);
 app.use("/api/payment", paymentRouter);
+app.use("/api/shipping", shippingRouter);
 
 app.listen(PORT, () => {
   console.log(`API is listening on port ${PORT}.`);
