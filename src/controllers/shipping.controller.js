@@ -1,13 +1,16 @@
 const axios = require("axios");
 const xml2js = require("xml2js");
 const parser = new xml2js.Parser();
-const { ADDITIONAL_CHARGE_PER_PRODUCT } = require("../configs/shipping.config");
+const {
+  ADDITIONAL_CHARGE_PER_PRODUCT,
+  ORIGIN_POSTAL_CODE,
+} = require("../configs/shipping.config");
 
 const getShippingRates = async (req, res) => {
-  const { origin, destination, parcel } = req.body;
+  const { destination, parcel, totalItems } = req.body;
 
   // Validate input data
-  if (!origin || !destination || !parcel) {
+  if (!destination || !parcel) {
     return res.status(400).send("Invalid input data");
   }
 
@@ -16,8 +19,8 @@ const getShippingRates = async (req, res) => {
   const uniqueParcels = [];
 
   parcel.forEach((product) => {
-    if (!uniqueProducts.has(product.id)) {
-      uniqueProducts.add(product.id);
+    if (!uniqueProducts.has(product.product_id)) {
+      uniqueProducts.add(product.product_id);
       uniqueParcels.push(product);
     }
   });
@@ -26,18 +29,18 @@ const getShippingRates = async (req, res) => {
     return `
       <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
         <customer-number>${process.env.CANADA_POST_CUSTOMER_NUMBER}</customer-number>
-        <origin-postal-code>${origin.postalCode}</origin-postal-code>
+        <origin-postal-code>${ORIGIN_POSTAL_CODE}</origin-postal-code>
         <destination>
           <domestic>
             <postal-code>${destination.postalCode}</postal-code>
           </domestic>
         </destination>
         <parcel-characteristics>
-          <weight>${product.weight}</weight>
+          <weight>${product.product_dimensions.weight}</weight>
           <dimensions>
-            <length>${product.length}</length>
-            <width>${product.width}</width>
-            <height>${product.height}</height>
+            <length>${product.product_dimensions.length}</length>
+            <width>${product.product_dimensions.width}</width>
+            <height>${product.product_dimensions.height}</height>
           </dimensions>
         </parcel-characteristics>
       </mailing-scenario>
@@ -104,8 +107,7 @@ const getShippingRates = async (req, res) => {
         : 0;
 
     // Calculate the total additional charge for other products
-    const additionalCharge =
-      (parcel.length - 1) * ADDITIONAL_CHARGE_PER_PRODUCT; // Subtract 1 for the product already accounted for in highestDueAmount
+    const additionalCharge = (totalItems - 1) * ADDITIONAL_CHARGE_PER_PRODUCT; // Subtract 1 for the product already accounted for in highestDueAmount
     const totalShippingCost = highestDueAmount + additionalCharge;
 
     res.json({ totalShippingCost });
